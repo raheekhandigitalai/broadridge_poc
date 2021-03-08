@@ -13,20 +13,28 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Properties;
 
 public class Performance_Mobile {
 
-    private String accessKey = "eyJ4cC51Ijo3MzU0MjQsInhwLnAiOjIsInhwLm0iOiJNVFUzT0RZd016ZzFOek16TVEiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE4OTM5NjM4NTcsImlzcyI6ImNvbS5leHBlcml0ZXN0In0.GP0hK0o0j2WEKt-J0aXsVbu1tmt-PhWUryqluokszJk";
     protected IOSDriver<IOSElement> driver = null;
     DesiredCapabilities dc = new DesiredCapabilities();
     SeeTestClient client;
 
     @BeforeMethod
-    public void setUp() throws MalformedURLException {
-        dc.setCapability("testName", "iOS_Native");
-        dc.setCapability("accessKey", accessKey);
+    public void setUp() throws IOException {
+
+        Properties prop = new Properties();
+        InputStream input = new FileInputStream(System.getProperty("user.dir") + "\\config.properties");
+        prop.load(input);
+
+        dc.setCapability("testName", "Performance_Mobile");
+        dc.setCapability("accessKey", prop.getProperty("accessKey"));
         dc.setCapability("deviceQuery", "@os='ios' and @category='PHONE'");
         dc.setCapability(MobileCapabilityType.APP, "cloud:com.experitest.ExperiBank");
         dc.setCapability(IOSMobileCapabilityType.BUNDLE_ID, "com.experitest.ExperiBank");

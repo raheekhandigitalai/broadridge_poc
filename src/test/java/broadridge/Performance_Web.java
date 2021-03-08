@@ -12,25 +12,32 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.net.URL;
+import java.util.Properties;
 
 // https://docs.experitest.com/display/TE/Grid+-+Performance+Transaction+Commands
 public class Performance_Web {
 
-    private static final String ACCESS_KEY = "eyJ4cC51Ijo3MzU0MjQsInhwLnAiOjIsInhwLm0iOiJNVFUzT0RZd016ZzFOek16TVEiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE4OTM5NjM4NTcsImlzcyI6ImNvbS5leHBlcml0ZXN0In0.GP0hK0o0j2WEKt-J0aXsVbu1tmt-PhWUryqluokszJk";
     private RemoteWebDriver driver;
     private DesiredCapabilities dc = new DesiredCapabilities();
 
     @BeforeMethod
     public void setUp() throws Exception {
+
+        Properties prop = new Properties();
+        InputStream input = new FileInputStream(System.getProperty("user.dir") + "\\config.properties");
+        prop.load(input);
+
         dc.setCapability("testName", "Performance_Web");
-        dc.setCapability("accessKey", ACCESS_KEY);
+        dc.setCapability("accessKey", prop.getProperty("accessKey"));
         dc.setCapability(CapabilityType.BROWSER_NAME, "chrome");
         driver = new RemoteWebDriver(new URL("https://uscloud.experitest.com/wd/hub"), dc);
     }
 
     @Test
-    public void browserTestGoogleSearch() {
+    public void testing_01() {
         driver.executeScript("seetest:client.startPerformanceTransaction(\"1.3\")");
         driver.get("https://www.google.com");
         new WebDriverWait(driver, 10).until(ExpectedConditions.presenceOfElementLocated(By.name("q")));
