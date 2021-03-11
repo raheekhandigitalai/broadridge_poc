@@ -43,12 +43,24 @@ public class TinyURL {
     }
 
     @Test
-    public void testing_01() throws InterruptedException {
+    public void extract_url_from_text() {
         client.launch("com.google.android.apps.googlevoice/.SplashActivity", false, false);
         driver.context("NATIVE_APP");
 
-//        AndroidElement element = driver.findElement(By.xpath("//*[@id='message_text' and contains(text(), 'cnn')]"));
-//        String text = element.getAttribute("text");
+        AndroidElement element = driver.findElement(By.xpath("//*[@id='message_text' and contains(text(), 'cnn')]"));
+        String text = element.getAttribute("text");
+        String[] list = text.split(":");
+        String url = list[1].trim();
+
+        System.out.println(url);
+    }
+
+    @Test
+    public void click_on_url_based_on_coordinates() throws InterruptedException {
+        client.launch("com.google.android.apps.googlevoice/.SplashActivity", false, false);
+        driver.context("NATIVE_APP");
+
+        AndroidElement element = driver.findElement(By.xpath("//*[@id='message_text' and contains(text(), 'cnn')]"));
 
 //        int x = element.getLocation().x;
 //        int y = element.getLocation().y;
