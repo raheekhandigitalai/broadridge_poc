@@ -44,7 +44,8 @@ public class Performance_Mobile {
 
     @Test
     public void testing_01() {
-        client.startPerformanceTransactionForApplication("com.experitest.ExperiBank", "NONE");
+        client.startPerformanceTransactionForApplication("com.experitest.ExperiBank", "4g-Lossy");
+
         driver.findElement(By.xpath("//*[@id='usernameTextField']")).sendKeys("company");
         driver.findElement(By.xpath("//*[@id='passwordTextField']")).sendKeys("company");
         driver.findElement(By.xpath("//*[@id='loginButton']")).click();
