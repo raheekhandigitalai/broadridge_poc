@@ -21,6 +21,12 @@
 
         <dependency>
             <groupId>com.experitest</groupId>
+            <artifactId>reporter-testng</artifactId>
+            <version>21.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.experitest</groupId>
             <artifactId>appium-seetest-extension</artifactId>
             <version>21.1</version>
         </dependency>

@@ -1,5 +1,6 @@
 package broadridge;
 
+import com.experitest.reporter.testng.Listener;
 import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.ios.IOSElement;
 import io.appium.java_client.remote.MobileBrowserType;
@@ -9,6 +10,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.ITestResult;
 import org.testng.annotations.*;
 
 import java.io.FileInputStream;
@@ -19,6 +21,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Properties;
 
+@Listeners(Listener.class)
 public class iOS_Web {
 
     protected IOSDriver<IOSElement> driver = null;
@@ -45,10 +48,23 @@ public class iOS_Web {
         new WebDriverWait(driver, 10).until(ExpectedConditions.presenceOfElementLocated(By.name("q")));
         WebElement searchBar = driver.findElement(By.name("q"));
         searchBar.sendKeys("Experitest");
+
+        try {
+            // There is a failure here
+        } catch (Exception e) {
+            // There is a success step here
+        }
     }
 
     @AfterMethod
-    public void tearDown() {
+    public void tearDown(ITestResult result) {
+
+        if (!result.isSuccess()) {
+            driver.executeScript("seetest:client.setReportStatus(\"FAILED\",\"test is FAILED\",\"a stacktrace\")");
+        } else {
+
+        }
+
         System.out.println("Report URL: "+ driver.getCapabilities().getCapability("reportUrl"));
         driver.quit();
     }
